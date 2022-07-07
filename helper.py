@@ -95,27 +95,15 @@ def create_wordcloud(selected_user,dataframe):
 
 
 def most_words(selected_user,dataframe):
-    f = open('english.txt','r')
-    stop_words = f.read()
 
     if selected_user != 'Overall':
         dataframe =  dataframe[dataframe['name'] == selected_user]
     df_word = dataframe[dataframe['messages'] != '<Media omitted>']
-    
-    def remove_stop_words(messages):
-        y = []
-        for word in messages.lower().split():
-            if word not in stop_words:
-                y.append(word)
-        return " ".join(y)
-
-    wc = WordCloud(width=500, height= 500, min_font_size=10, background_color='white',max_font_size=70)
-    df_word['messages'] = df_word['messages'].apply(remove_stop_words) 
 
     words = []
     for message in df_word.messages:
         for word in message.lower().split():
-            if word not in stop_words:
+            if len(word) > 3:
                 words.append(word)
     df_count = pd.DataFrame(Counter(words).most_common(20)).rename(columns={0:'Words',1:'val'})
 
