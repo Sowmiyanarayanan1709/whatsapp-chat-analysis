@@ -119,6 +119,12 @@ if uploaded_file is not None:
             except ValueError:
                 st.write("Not enough words to form a word Cloud")
                 
+            st.title("Most Used Words")  #most used words
+            most_common_word = helper.most_words(selected_user,df)
+            fig, ax = plt.subplots()
+            ax.barh(most_common_word['Words'],most_common_word['val'])
+            st.pyplot(fig)
+                
             # most used emoji
             emoji_df = helper.emoji_count(selected_user,df)
             st.title("Emoji Analysis")
